@@ -4,6 +4,8 @@ IklimKonek adalah aplikasi web berbasis data iklim untuk membantu petani dan nel
 
 Proyek ini menggabungkan data cuaca real-time, rule engine rekomendasi aksi, dan forum komunitas agar pengguna bisa mendapatkan insight sekaligus validasi lapangan.
 
+Tautan Website (Live Deployment): https://iklimkonek.biz.id
+
 ## Latar Belakang
 
 Informasi cuaca sering tersedia dalam format teknis yang tidak langsung operasional bagi pengguna lapangan. IklimKonek dirancang untuk menjembatani hal tersebut melalui:
