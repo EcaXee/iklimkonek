@@ -1,8 +1,8 @@
-// 1. Tambahkan import getStorage
+// Import modul Firebase yang dipakai di proyek.
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"; // TAMBAHKAN INI
+import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB57Z_g0gXUISBnZ34BePkYCUuVmI52Mck",
@@ -14,10 +14,10 @@ const firebaseConfig = {
   measurementId: "G-QPNHPTZ1DP"
 };
 
-// Inisialisasi Firebase
+// Inisialisasi aplikasi Firebase.
 const app = initializeApp(firebaseConfig);
 
-// 2. Export db, auth, dan storage
+// Export service agar bisa dipakai modul lain (auth, forum, profil, dsb).
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const storage = getStorage(app); // TAMBAHKAN INI
+export const storage = getStorage(app);

@@ -1,9 +1,10 @@
-// Tambahkan ../ agar dia keluar dari folder 'auth' untuk mencari config
+// Path relatif: keluar dari folder auth menuju konfigurasi Firebase utama.
 import { auth } from '../firebase-config.js'; 
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const loginForm = document.querySelector('form');
 
+// Menangani submit login berbasis email + password.
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -15,8 +16,7 @@ loginForm.addEventListener('submit', async (e) => {
         console.log("Mencoba login...");
         await signInWithEmailAndPassword(auth, email, password);
         
-        // Karena login.html ada di folder utama, index.html juga di folder utama,
-        // maka pemanggilan "index.html" di sini sudah benar.
+        // Setelah login sukses, arahkan ke halaman utama.
         window.location.href = "index.html"; 
     } catch (error) {
         console.error("Error Detail:", error.code);

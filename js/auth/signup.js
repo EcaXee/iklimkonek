@@ -4,6 +4,7 @@ import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 
 const signupForm = document.querySelector('form');
 
+// Menangani pendaftaran akun baru dan sinkronisasi data awal ke Firestore.
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -13,24 +14,24 @@ signupForm.addEventListener('submit', async (e) => {
     const password = inputs[2].value;
     const confirmPw = inputs[3].value;
 
-    // Validasi Konfirmasi Password
+    // Validasi 1: konfirmasi password harus sama.
     if (password !== confirmPw) {
         alert("Konfirmasi password tidak cocok!");
         return;
     }
 
-    // Validasi Panjang Password (Syarat Firebase minimal 6)
+    // Validasi 2: Firebase butuh panjang minimal 6 karakter.
     if (password.length < 6) {
         alert("Password minimal harus 6 karakter!");
         return;
     }
 
     try {
-        // 1. Buat akun di Auth
+        // 1) Buat akun di Firebase Authentication.
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // 2. Simpan Data Nama ke Firestore
+        // 2) Simpan metadata user awal ke koleksi users.
         await setDoc(doc(db, "users", user.uid), {
             nama: nama,
             email: email,

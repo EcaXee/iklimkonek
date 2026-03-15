@@ -1,9 +1,9 @@
-// Konfigurasi Default (Mataram)
+// Koordinat fallback jika GPS tidak tersedia.
 const DEFAULT_LAT = -8.5833; 
 const DEFAULT_LNG = 116.1167;
 let currentMode = 'petani';
 
-// --- MESIN INSIGHT (Rule-Based Engine) ---
+// Rule engine sederhana untuk mengubah data cuaca menjadi rekomendasi aksi.
 const InsightEngine = {
     getPetaniInsight: (temp, rainProb) => {
         if (rainProb > 70) return "Tunda pemupukan pagi ini. Peluang hujan sangat tinggi, pupuk akan hanyut terbawa air.";
@@ -35,9 +35,9 @@ const contentData = {
     }
 };
 
-// --- FUNGSI UTAMA AMBIL DATA ---
+// Titik masuk utama: ambil lokasi lalu fetch cuaca sesuai mode.
 async function startApp() {
-    // Coba ambil lokasi GPS
+    // Coba gunakan GPS pengguna.
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             (pos) => fetchData(pos.coords.latitude, pos.coords.longitude),
@@ -77,7 +77,7 @@ async function fetchData(lat, lng) {
             color = wind > 20 ? "#ef4444" : "#3b82f6";
         }
 
-        // Update UI
+        // Update UI utama berdasarkan hasil perhitungan status.
         document.getElementById('main-status-title').innerText = title;
         document.getElementById('main-status-desc').innerText = insight;
         document.getElementById('work-status').innerText = title;
@@ -90,6 +90,7 @@ async function fetchData(lat, lng) {
 }
 
 function renderUI() {
+    // Render elemen statis sesuai mode (petani/nelayan).
     const d = contentData[currentMode];
     document.getElementById('toggle-text').innerText = currentMode === 'petani' ? 'Petani' : 'Nelayan';
     document.getElementById('toggle-icon').innerText = currentMode === 'petani' ? '🌾' : '🌊';
@@ -106,6 +107,7 @@ function renderUI() {
 }
 
 document.getElementById('mode-toggle').addEventListener('click', () => {
+    // Toggle mode lalu refresh data agar rekomendasi ikut berubah.
     currentMode = currentMode === 'petani' ? 'nelayan' : 'petani';
     renderUI();
     startApp();

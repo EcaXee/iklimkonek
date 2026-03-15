@@ -1,7 +1,14 @@
 /**
- * Logika If-Else kaku untuk memberikan instruksi aksi kepada pengguna
+ * Rule engine sederhana untuk mengubah angka cuaca menjadi instruksi aksi.
+ * Semua ambang batas disimpan di sini agar mudah diubah di satu tempat.
  */
 const InsightEngine = {
+    /**
+     * Insight khusus petani berdasarkan suhu dan peluang hujan.
+     * @param {number} temp
+     * @param {number} rainProb
+     * @returns {string}
+     */
     getPetaniInsight: (temp, rainProb) => {
         if (rainProb > 70) {
             return "Tunda pemupukan pagi ini. Peluang hujan sangat tinggi, pupuk akan hanyut terbawa air.";
@@ -14,6 +21,11 @@ const InsightEngine = {
         }
     },
 
+    /**
+     * Insight khusus nelayan berdasarkan kecepatan angin.
+     * @param {number} windSpeed
+     * @returns {string}
+     */
     getNelayanInsight: (windSpeed) => {
         if (windSpeed > 25) {
             return "DILARANG MELAUT. Angin kencang berisiko menimbulkan gelombang tinggi. Utamakan keselamatan.";

@@ -1,9 +1,9 @@
 /**
- * Fungsi untuk memuat file sidebar.html secara dinamis
+ * Memuat komponen sidebar dari file terpisah agar bisa dipakai lintas halaman.
  */
 async function loadSidebar() {
     try {
-        // 1. Ambil file sidebar dari folder components
+        // 1) Ambil template HTML sidebar.
         const response = await fetch('components/sidebar.html');
         
         if (!response.ok) {
@@ -12,10 +12,10 @@ async function loadSidebar() {
 
         const sidebarHTML = await response.text();
 
-        // 2. Suntikkan ke bagian paling bawah body agar tidak merusak struktur utama
+        // 2) Sisipkan di akhir body supaya struktur halaman utama tetap aman.
         document.body.insertAdjacentHTML('beforeend', sidebarHTML);
 
-        // 3. Inisialisasi logika interaksi setelah HTML disuntikkan
+        // 3) Pasang event interaksi setelah elemen sidebar tersedia.
         initSidebarLogic();
 
     } catch (error) {
@@ -24,31 +24,31 @@ async function loadSidebar() {
 }
 
 /**
- * Logika Buka-Tutup Sidebar
+ * Menyiapkan perilaku buka/tutup sidebar.
  */
 function initSidebarLogic() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
-    const btnOpen = document.getElementById('btn-menu'); // Tombol burger di header
-    const btnClose = document.getElementById('close-sidebar'); // Tombol silang di sidebar
+    const btnOpen = document.getElementById('btn-menu');
+    const btnClose = document.getElementById('close-sidebar');
 
-    // Fungsi helper untuk toggle class
+    // Satu fungsi toggle untuk semua trigger (open, close, klik overlay).
     const toggleMenu = () => {
         if (sidebar && overlay) {
             sidebar.classList.toggle('translate-x-full');
             overlay.classList.toggle('hidden');
-            // Mencegah body di-scroll saat menu terbuka
+            // Kunci scroll body saat sidebar aktif.
             document.body.classList.toggle('overflow-hidden');
         }
     };
 
-    // Pasang Event Listener dengan pengecekan elemen
+    // Pasang event hanya jika elemennya tersedia di halaman saat ini.
     if (btnOpen) btnOpen.onclick = toggleMenu;
     if (btnClose) btnClose.onclick = toggleMenu;
     if (overlay) overlay.onclick = toggleMenu;
 }
 
-// Jalankan loadSidebar segera setelah struktur HTML dasar siap
+// Jalankan segera setelah DOM siap.
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadSidebar);
 } else {

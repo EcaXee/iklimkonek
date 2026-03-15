@@ -5,7 +5,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- FUNGSI LIKE NELAYAN ---
+// Toggle like pada postingan forum nelayan.
 window.handleLike = async (postId, likes) => {
     try {
         const postRef = doc(db, "forum_nelayan", postId);
@@ -18,10 +18,10 @@ window.handleLike = async (postId, likes) => {
     } catch (err) { console.error("Like Error:", err); }
 };
 
-// --- AUTH & SYNC PROFIL INPUT ---
+// Pastikan user login, lalu sinkronkan identitas user di form input postingan.
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        // Ambil data terbaru user yang login dari Firestore
+        // Ambil data terbaru user login dari Firestore.
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
         
@@ -35,7 +35,7 @@ onAuthStateChanged(auth, async (user) => {
             if (handleEl) handleEl.textContent = `@${userData.handle}`;
             if (avatarEl) avatarEl.src = userData.photoURL;
         } else {
-            // Fallback jika data users belum ada
+            // Fallback jika dokumen users belum ada.
             const username = user.email.split('@')[0];
             if (nameEl) nameEl.textContent = username;
             if (handleEl) handleEl.textContent = `@${username}`;
@@ -55,7 +55,7 @@ function initForum() {
 
     if (!chatForm) return;
 
-    // --- KIRIM POST KE FORUM NELAYAN ---
+    // Handle submit posting baru.
     chatForm.onsubmit = async (e) => {
         e.preventDefault();
         const text = chatInput.value.trim();
@@ -74,12 +74,12 @@ function initForum() {
         } catch (err) { console.error("Kirim Gagal:", err); }
     };
 
-    // --- TAMPIL FEED NELAYAN ---
+    // Render feed real-time dari Firestore.
     const q = query(collection(db, "forum_nelayan"), orderBy("timestamp", "desc"));
     onSnapshot(q, async (snapshot) => {
         chatContainer.innerHTML = "";
         
-        // Loop asinkron untuk ambil data profil setiap penulis
+        // Loop asinkron untuk mengambil profil setiap penulis postingan.
         for (const docSnap of snapshot.docs) {
             const post = docSnap.data();
             const postId = docSnap.id;
@@ -87,7 +87,7 @@ function initForum() {
             const hasLiked = likes.includes(auth.currentUser.uid);
             const timeInfo = post.timestamp ? "Baru saja" : "...";
 
-            // Ambil data profil penulis dari koleksi "users"
+            // Ambil data profil penulis dari koleksi users.
             const authorRef = doc(db, "users", post.uid);
             const authorSnap = await getDoc(authorRef);
             
