@@ -8,80 +8,115 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .mobile-container {
+
+        .app-container {
             max-width: 450px;
             margin: 0 auto;
             min-height: 100vh;
             background: #F3F4F6;
+            border-left: 1px solid #D1D5DB;
+            border-right: 1px solid #D1D5DB;
+            box-shadow: 0 20px 35px -15px rgba(0, 0, 0, 0.25);
         }
+
         .hero-gradient {
             background: linear-gradient(135deg, #10B981 0%, #059669 20%, #3B82F6 100%);
+        }
+
+        @media (min-width: 640px) {
+            .app-container {
+                max-width: none;
+                border-left: 0;
+                border-right: 0;
+                box-shadow: none;
+                background: #E5E7EB;
+            }
+
+            .hero-gradient {
+                border-bottom-left-radius: 36px;
+                border-bottom-right-radius: 36px;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-200">
 
-    <div class="mobile-container relative pb-10 shadow-xl border-x border-gray-300">
-        <div class="hero-gradient text-white text-center px-8 pt-12 pb-32 rounded-b-[40px] shadow-lg">
-            <div class="flex justify-between items-center mb-10">
+    <div class="app-container relative pb-10 md:pb-16">
+        <div class="hero-gradient text-white text-center px-8 pt-12 pb-32 md:pt-16 md:pb-24 rounded-b-[40px] shadow-lg">
+            <div class="flex justify-between items-center gap-5 mb-10 md:max-w-6xl md:mx-auto">
                 <h1 class="text-2xl font-black italic tracking-tighter">IklimKonek</h1>
-                <button id="btn-menu" class="text-white text-3xl opacity-80 active:scale-90 transition-transform focus:outline-none">
+
+                <nav class="hidden sm:flex items-center gap-3 md:gap-5 lg:gap-8 text-white/90 font-semibold text-xs md:text-sm lg:text-base">
+                    <a href="index.html" class="hover:text-white transition-colors">Home</a>
+                    <a href="dashboard-petani.html" class="hover:text-white transition-colors">Petani</a>
+                    <a href="dashboard-nelayan.html" class="hover:text-white transition-colors">Nelayan</a>
+                    <a href="forum-petani.html" class="hover:text-white transition-colors">Forum Petani</a>
+                    <a href="forum-nelayan.html" class="hover:text-white transition-colors">Forum Nelayan</a>
+                </nav>
+
+                <button id="btn-menu" class="text-white text-3xl opacity-80 active:scale-90 transition-transform focus:outline-none sm:hidden">
                     &#9776;
                 </button>
+
+                <a href="profile.html" class="hidden sm:flex w-10 h-10 rounded-full border border-white/50 bg-white/10 text-white items-center justify-center hover:bg-white/20 transition-colors" aria-label="Buka profil">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 1119.5 8.5a9 9 0 01-14.379 9.304zM15 11a3 3 0 11-6 0 3 3 0 016 0zm-8.5 7.5a7.5 7.5 0 0111 0" />
+                    </svg>
+                </a>
             </div>
 
-            <div class="flex justify-center mb-4">
-                <div class="w-16 h-16 border-2 border-white/50 rounded-full flex items-center justify-center">
+            <div class="flex justify-center mb-4 md:mb-6">
+                <div class="w-16 h-16 md:w-20 md:h-20 border-2 border-white/50 rounded-full flex items-center justify-center">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                     </svg>
                 </div>
             </div>
 
-            <h2 class="text-4xl font-black mb-4 tracking-tight">IklimKonek</h2>
-            <p class="text-[11px] font-bold uppercase tracking-widest leading-tight mb-6 opacity-90">
+            <h2 class="text-4xl font-black mb-4 tracking-tight sm:hidden">IklimKonek</h2>
+            <p class="text-[11px] md:text-base font-bold md:normal-case uppercase tracking-widest md:tracking-normal leading-tight md:leading-snug mb-6 opacity-90 max-w-3xl mx-auto">
                 Platform Inklusif Penyedia Data Iklim untuk Ketahanan Petani dan Konservasi Lokal.
             </p>
-            <p class="text-xs font-medium leading-relaxed opacity-80 mb-8 px-4">
+            <p class="text-xs md:text-lg font-medium leading-relaxed opacity-80 mb-8 px-4 max-w-3xl mx-auto">
                 Mengubah data cuaca rumit menjadi instruksi aksi sederhana. Zero friction, langsung tepat sasaran.
             </p>
 
-            <div class="space-y-4">
-                <h3 class="text-xl font-bold tracking-tight">Mulai Aktivitas Anda</h3>
-                <p class="text-[10px] font-bold opacity-80 uppercase tracking-widest mb-4">Pilih profesi Anda :</p>
+            <div class="space-y-4 md:max-w-lg md:mx-auto">
+                <h3 class="text-xl md:text-4xl font-bold tracking-tight">Mulai Aktivitas Anda</h3>
+                <p class="text-[10px] md:text-xl font-bold opacity-80 uppercase md:normal-case tracking-widest md:tracking-normal mb-4">Pilih profesi Anda :</p>
                 
-                <a href="dashboard-petani.html" class="flex items-center justify-center gap-3 w-full bg-[#D1FAE5] text-[#065F46] py-4 rounded-2xl font-black text-xl shadow-md active:scale-95 transition-all">
+                <a href="dashboard-petani.html" class="flex items-center justify-center gap-3 w-full bg-[#D1FAE5] text-[#065F46] py-4 rounded-2xl font-black text-xl md:text-3xl shadow-md active:scale-95 transition-all">
                     <span>🌱</span> Saya Petani
                 </a>
-                <a href="dashboard-nelayan.html" class="flex items-center justify-center gap-3 w-full bg-[#DBEAFE] text-[#1E40AF] py-4 rounded-2xl font-black text-xl shadow-md active:scale-95 transition-all">
+                <a href="dashboard-nelayan.html" class="flex items-center justify-center gap-3 w-full bg-[#DBEAFE] text-[#1E40AF] py-4 rounded-2xl font-black text-xl md:text-3xl shadow-md active:scale-95 transition-all">
                     <span>🌊</span> Saya Nelayan
                 </a>
             </div>
         </div>
 
-        <div class="px-8 -mt-20 space-y-4">
-            <div class="bg-white p-6 rounded-3xl shadow-sm text-center border border-gray-100">
+        <div class="px-8 -mt-20 space-y-4 md:max-w-6xl md:mx-auto md:px-6 lg:px-10 md:space-y-0 md:grid md:grid-cols-2 xl:grid-cols-3 md:gap-8 md:-mt-10">
+            <div class="bg-white p-6 md:p-7 rounded-3xl shadow-sm text-center border border-gray-100 md:border-gray-200">
                 <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="text-2xl text-blue-500">⚡</span>
                 </div>
-                <h4 class="font-black text-sm mb-2 uppercase italic tracking-tighter">Cepat & Ringan</h4>
-                <p class="text-[11px] text-gray-500 font-medium px-4 leading-relaxed">Akses info krusial dalam hitungan detik tanpa loading grafis berat.</p>
+                <h4 class="font-black text-sm md:text-2xl mb-2 uppercase md:normal-case italic md:not-italic tracking-tighter md:tracking-tight">Cepat & Ringan</h4>
+                <p class="text-[11px] md:text-lg text-gray-500 md:text-gray-600 font-medium px-4 md:px-0 leading-relaxed">Akses info krusial dalam hitungan detik tanpa loading grafis berat.</p>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-sm text-center border border-gray-100">
+            <div class="bg-white p-6 md:p-7 rounded-3xl shadow-sm text-center border border-gray-100 md:border-gray-200">
                 <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="text-2xl text-green-500">🛡️</span>
                 </div>
-                <h4 class="font-black text-sm mb-2 uppercase italic tracking-tighter">Akurasi</h4>
-                <p class="text-[11px] text-gray-500 font-medium px-4 leading-relaxed">Didukung data cuaca global yang diolah otomatis jadi rekomendasi harian.</p>
+                <h4 class="font-black text-sm md:text-2xl mb-2 uppercase md:normal-case italic md:not-italic tracking-tighter md:tracking-tight">Akurasi</h4>
+                <p class="text-[11px] md:text-lg text-gray-500 md:text-gray-600 font-medium px-4 md:px-0 leading-relaxed">Didukung data cuaca global yang diolah otomatis jadi rekomendasi harian.</p>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl shadow-sm text-center border border-gray-100">
+            <div class="bg-white p-6 md:p-7 rounded-3xl shadow-sm text-center border border-gray-100 md:border-gray-200 md:col-span-2 xl:col-span-1">
                 <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span class="text-2xl text-orange-500">💬</span>
                 </div>
-                <h4 class="font-black text-sm mb-2 uppercase italic tracking-tighter">Kearifan Lokal</h4>
-                <p class="text-[11px] text-gray-500 font-medium px-4 leading-relaxed">Validasi info cuaca lewat forum interaktif sesama warga sekitar Anda.</p>
+                <h4 class="font-black text-sm md:text-2xl mb-2 uppercase md:normal-case italic md:not-italic tracking-tighter md:tracking-tight">Kearifan Lokal</h4>
+                <p class="text-[11px] md:text-lg text-gray-500 md:text-gray-600 font-medium px-4 md:px-0 leading-relaxed">Validasi info cuaca lewat forum interaktif sesama warga sekitar Anda.</p>
             </div>
         </div>
     </div>
