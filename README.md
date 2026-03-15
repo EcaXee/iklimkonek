@@ -1,160 +1,97 @@
 # IklimKonek
 
-Platform web informasi iklim untuk dua kelompok pengguna utama:
-- Petani
-- Nelayan
+IklimKonek adalah aplikasi web berbasis data iklim untuk membantu petani dan nelayan mengambil keputusan harian secara cepat dan kontekstual.
 
-Aplikasi menampilkan insight cuaca berbasis lokasi, dashboard harian, forum komunitas, autentikasi pengguna, dan manajemen profil.
+Proyek ini menggabungkan data cuaca real-time, rule engine rekomendasi aksi, dan forum komunitas agar pengguna bisa mendapatkan insight sekaligus validasi lapangan.
 
-## Ringkasan Fitur
+## Latar Belakang
 
-- Dashboard Petani dengan metrik suhu + peluang hujan.
-- Dashboard Nelayan dengan metrik suhu + kecepatan angin.
-- Insight aksi harian berbasis rule (`engine.js`).
-- Forum komunitas real-time (Petani dan Nelayan) menggunakan Firestore.
-- Login, signup, profil, dan edit profil.
-- Upload avatar profil ke Cloudinary.
-- Sidebar mobile reusable lintas halaman.
-- Layout responsif untuk mobile, tablet, dan desktop.
+Informasi cuaca sering tersedia dalam format teknis yang tidak langsung operasional bagi pengguna lapangan. IklimKonek dirancang untuk menjembatani hal tersebut melalui:
+- ringkasan kondisi yang mudah dipahami,
+- rekomendasi tindakan yang praktis,
+- dan ruang diskusi komunitas lokal.
+
+## Fitur Utama
+
+- Dashboard Petani
+: Menampilkan suhu, peluang hujan, dan rekomendasi tindakan budidaya.
+
+- Dashboard Nelayan
+: Menampilkan suhu, kecepatan angin, dan rekomendasi keselamatan melaut.
+
+- Insight Berbasis Rule
+: Rule engine mengubah parameter cuaca menjadi instruksi aksi yang langsung dapat digunakan.
+
+- Forum Komunitas Real-Time
+: Forum terpisah untuk petani dan nelayan, mendukung posting dan like secara langsung.
+
+- Manajemen Akun
+: Registrasi, login, profil, edit profil, dan upload avatar.
+
+- UI Responsif
+: Pengalaman penggunaan konsisten di mobile, tablet, dan desktop.
+
+## Teknologi
+
+- Frontend: HTML, Tailwind CSS, JavaScript (Vanilla)
+- Backend: Firebase Authentication, Firestore
+- Data Cuaca: Open-Meteo API
+- Media Avatar: Cloudinary
+
+## Arsitektur Singkat
+
+1. Pengguna memilih konteks profesi (petani/nelayan).
+2. Aplikasi mengambil lokasi (dengan fallback koordinat default).
+3. Data cuaca diambil dari Open-Meteo.
+4. Rule engine menghasilkan insight tindakan.
+5. Dashboard diperbarui dinamis berdasarkan kondisi terbaru.
+6. Data forum disinkronkan real-time melalui Firestore.
 
 ## Struktur Halaman
 
-- `index.html`: Landing/home dan pemilihan profesi.
-- `dashboard-petani.html`: Dashboard cuaca untuk petani.
-- `dashboard-nelayan.html`: Dashboard cuaca untuk nelayan.
-- `forum-petani.html`: Forum diskusi petani.
-- `forum-nelayan.html`: Forum diskusi nelayan.
-- `login.html`: Halaman masuk.
-- `signup.html`: Halaman daftar.
-- `profile.html`: Halaman profil user.
-- `profile-edit.html`: Edit data profil dan foto.
-- `components/sidebar.html`: Komponen sidebar mobile.
+- `index.html` - Landing page dan pemilihan profesi.
+- `dashboard-petani.html` - Dashboard iklim petani.
+- `dashboard-nelayan.html` - Dashboard iklim nelayan.
+- `forum-petani.html` - Forum komunitas petani.
+- `forum-nelayan.html` - Forum komunitas nelayan.
+- `login.html` - Autentikasi masuk.
+- `signup.html` - Registrasi akun.
+- `profile.html` - Informasi profil pengguna.
+- `profile-edit.html` - Pengelolaan profil pengguna.
 
-## Struktur JavaScript
+## Struktur Kode (Inti)
 
-- `js/firebase-config.js`
-  - Inisialisasi Firebase App.
-  - Export `auth`, `db`, `storage`.
+- `js/api.js` - Pengambilan data cuaca dari Open-Meteo.
+- `js/engine.js` - Rule engine untuk insight petani/nelayan.
+- `js/dashboard-petani.js` - Logika dashboard petani.
+- `js/dashboard-nelayan.js` - Logika dashboard nelayan.
+- `js/forum.js` - Logika forum petani (post, feed, like).
+- `js/forum-nelayan.js` - Logika forum nelayan (post, feed, like).
+- `js/auth/login.js` - Proses login.
+- `js/auth/signup.js` - Proses registrasi.
+- `js/profile.js` - Sinkronisasi dan update data profil.
+- `js/sidebar.js` - Komponen sidebar mobile reusable.
 
-- `js/api.js`
-  - Integrasi Open-Meteo.
-  - Fungsi `getWeatherData(lat, lng, mode)`.
+## Cara Menjalankan Proyek
 
-- `js/engine.js`
-  - Rule engine insight cuaca untuk petani/nelayan.
+Gunakan local server agar semua modul JavaScript berjalan normal.
 
-- `js/dashboard-petani.js`
-  - Ambil lokasi user.
-  - Ambil data cuaca mode petani.
-  - Update status, metrik, dan visual dashboard.
+Opsi 1 (disarankan):
+1. Buka folder proyek di VS Code.
+2. Jalankan Live Server dari `index.html`.
 
-- `js/dashboard-nelayan.js`
-  - Ambil lokasi user.
-  - Ambil data cuaca mode nelayan.
-  - Update status, metrik, dan visual dashboard.
-
-- `js/forum.js`
-  - Logika forum petani (render feed, kirim post, like).
-
-- `js/forum-nelayan.js`
-  - Logika forum nelayan (render feed, kirim post, like).
-
-- `js/profile.js`
-  - Sinkronisasi data profil.
-  - Update profil ke Firestore.
-  - Upload avatar ke Cloudinary.
-
-- `js/sidebar.js`
-  - Inject komponen sidebar.
-  - Event buka/tutup sidebar + lock scroll body.
-
-- `js/auth/login.js`
-  - Login Firebase Auth.
-
-- `js/auth/signup.js`
-  - Register Firebase Auth.
-  - Simpan data awal user ke Firestore.
-
-## Alur Data Utama
-
-1. User membuka dashboard.
-2. Browser meminta izin geolokasi.
-3. Sistem memanggil Open-Meteo via `getWeatherData`.
-4. Rule engine (`InsightEngine`) menentukan rekomendasi.
-5. UI dashboard diperbarui (status, teks insight, warna kartu).
-
-## Forum Real-Time
-
-- Sumber data:
-  - `forum_petani` untuk forum petani.
-  - `forum_nelayan` untuk forum nelayan.
-- Feed di-render real-time dengan `onSnapshot`.
-- Like disimpan sebagai array UID (`arrayUnion`/`arrayRemove`).
-
-## Koleksi Firestore yang Digunakan
-
-- `users`
-  - `displayName`
-  - `handle`
-  - `photoURL`
-  - metadata lain sesuai kebutuhan
-
-- `forum_petani`
-  - `text`, `uid`, `author`, `timestamp`, `likes`, `location`
-
-- `forum_nelayan`
-  - `text`, `uid`, `author`, `timestamp`, `likes`, `location`
-
-## Integrasi Eksternal
-
-- Firebase (Auth + Firestore + Storage)
-- Open-Meteo API
-- Cloudinary (upload avatar)
-- Tailwind CDN
-
-## Menjalankan Proyek
-
-Karena ini static multi-page app, jalankan dengan local server.
-
-Contoh (VS Code Live Server):
-1. Buka folder proyek.
-2. Jalankan Live Server di `index.html`.
-
-Alternatif sederhana (Python):
+Opsi 2 (Python):
 ```bash
 python -m http.server 5500
 ```
-Lalu buka `http://127.0.0.1:5500`.
+Lalu akses `http://127.0.0.1:5500`.
 
-## Panduan Pengembangan
+## Pengembangan Lanjutan
 
-- Pertahankan ID elemen yang dipakai JS (contoh: `stat-temp`, `main-status-desc`).
-- Jika mengubah struktur dashboard, cek script terkait agar tidak terjadi mismatch selector.
-- Untuk fitur baru forum, update kedua file forum agar behavior tetap konsisten.
-- Gunakan komentar blok untuk menjelaskan tujuan modul, bukan komentar per baris yang redundant.
+- Integrasi deployment production (hosting publik).
+- Penyempurnaan observabilitas error dan logging.
+- Penambahan automated test untuk flow auth, dashboard, dan forum.
 
-## Catatan Responsif
+## Tim Pengembang
 
-- Mobile mempertahankan layout inti asli.
-- Desktop menambahkan navbar horizontal + container terpusat.
-- Halaman dengan konten pendek sudah diatur agar tidak menampilkan scroll kosong.
-
-## Troubleshooting
-
-- Data cuaca tidak tampil:
-  - cek izin lokasi browser.
-  - cek koneksi internet.
-
-- Forum kosong:
-  - pastikan user login.
-  - cek aturan Firestore dan koleksi.
-
-- Foto profil gagal upload:
-  - cek `CLOUDINARY_UPLOAD_PRESET` di `js/profile.js`.
-  - cek network request ke endpoint Cloudinary.
-
-## Saran Lanjutan
-
-- Tambahkan `.env` pattern (build tool) agar kredensial/config lebih aman.
-- Tambahkan linting HTML/JS otomatis.
-- Tambahkan test UI dasar untuk form auth dan render dashboard.
+Dokumen ini disusun untuk memudahkan evaluasi teknis dan pengembangan lanjutan proyek IklimKonek.
